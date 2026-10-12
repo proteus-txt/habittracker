@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101114">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Звички">
+  <meta name="description" content="Особистий трекер звичок із темною темою та статистикою.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+  <title>Мої звички</title>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand-mark" aria-hidden="true">✳</div>
+      <div>
+        <p class="eyebrow">МІЙ ПРОСТІР</p>
+        <h1>Мої звички</h1>
+      </div>
+      <button id="exportBtn" class="icon-button" title="Експортувати дані" aria-label="Експортувати дані">↥</button>
+    </header>
+
+    <main>
+      <section class="welcome-row">
+        <div>
+          <p id="todayLabel" class="muted">СЬОГОДНІ</p>
+          <h2 id="dateTitle">Твій день — твій темп.</h2>
+        </div>
+        <div class="date-orb" aria-hidden="true"><span id="dayNumber">12</span><small id="monthShort">ЖОВ</small></div>
+      </section>
+
+      <section class="progress-card">
+        <div class="progress-copy">
+          <div>
+            <p class="muted">ЩОДЕННИЙ ПРОГРЕС</p>
+            <div class="progress-number"><span id="progressPercent">0</span><span class="percent">%</span></div>
+          </div>
+          <p id="progressCaption" class="progress-caption">Маленький крок теж рахується.</p>
+        </div>
+        <div class="progress-track"><div id="progressBar" class="progress-fill"></div></div>
+        <div class="progress-foot"><span id="doneCount">0 із 0 виконано</span><span id="remainingCount">Починай у своєму темпі</span></div>
+      </section>
+
+      <section class="section-heading">
+        <div><p class="muted">ТВОЯ РУТИНА</p><h2>Список звичок</h2></div>
+        <button id="addHabitBtn" class="primary-button"><span>＋</span> Додати</button>
+      </section>
+      <section id="habitsList" class="habits-list" aria-live="polite"></section>
+
+      <section class="stats-section">
+        <div class="section-heading stats-heading">
+          <div><p class="muted">ПОСЛІДОВНІСТЬ</p><h2>Твоя статистика</h2></div>
+          <span class="period-pill">7 днів</span>
+        </div>
+        <div class="stats-grid">
+          <article class="stat-card">
+            <div class="stat-icon violet">↗</div><p class="muted">Виконано цього тижня</p>
+            <div class="stat-value" id="weekTotal">0 <small>разів</small></div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-icon mint">✦</div><p class="muted">Найкраща серія</p>
+            <div class="stat-value" id="bestStreak">0 <small>днів</small></div>
+          </article>
+        </div>
+        <article class="chart-card">
+          <div class="chart-title"><div><h3>Активність</h3><p class="muted">Виконані звички за день</p></div><span class="chart-legend"><i></i> Виконано</span></div>
+          <div id="weeklyChart" class="weekly-chart" role="img" aria-label="Графік виконаних звичок за останні сім днів"></div>
+        </article>
+      </section>
+
+      <section class="data-note">
+        <span class="note-icon">⌁</span>
+        <p><strong>Твої дані залишаються на цьому пристрої.</strong><br>Час від часу експортуй резервну копію кнопкою ↥ угорі.</p>
+      </section>
+    </main>
+    <footer>ЗРОБЛЕНО ДЛЯ ТЕБЕ <span>·</span> ПО ОДНОМУ ДНЮ</footer>
+  </div>
+
+  <dialog id="habitDialog">
+    <form id="habitForm" method="dialog">
+      <div class="dialog-head"><div><p class="muted">НОВА РУТИНА</p><h2 id="dialogTitle">Додати звичку</h2></div><button type="button" id="closeDialog" class="icon-button close-button" aria-label="Закрити">×</button></div>
+      <label for="habitName">Назва звички</label>
+      <input id="habitName" maxlength="60" placeholder="Наприклад, читати 10 хвилин" required>
+      <label>Обери значок</label>
+      <div id="iconChoices" class="icon-choices">
+        <button type="button" class="emoji-choice selected" data-emoji="✦">✦</button>
+        <button type="button" class="emoji-choice" data-emoji="💧">💧</button>
+        <button type="button" class="emoji-choice" data-emoji="📚">📚</button>
+        <button type="button" class="emoji-choice" data-emoji="🏃">🏃</button>
+        <button type="button" class="emoji-choice" data-emoji="🧘">🧘</button>
+        <button type="button" class="emoji-choice" data-emoji="🌱">🌱</button>
+        <button type="button" class="emoji-choice" data-emoji="✍️">✍️</button>
+        <button type="button" class="emoji-choice" data-emoji="😴">😴</button>
+      </div>
+      <label for="habitColor">Колір</label>
+      <div id="colorChoices" class="color-choices">
+        <button type="button" class="color-choice selected" data-color="#a78bfa" style="--choice:#a78bfa" aria-label="Фіолетовий"></button>
+        <button type="button" class="color-choice" data-color="#61d6b2" style="--choice:#61d6b2" aria-label="М'ятний"></button>
+        <button type="button" class="color-choice" data-color="#f6bd60" style="--choice:#f6bd60" aria-label="Жовтий"></button>
+        <button type="button" class="color-choice" data-color="#ff8d9c" style="--choice:#ff8d9c" aria-label="Рожевий"></button>
+        <button type="button" class="color-choice" data-color="#72b7ff" style="--choice:#72b7ff" aria-label="Блакитний"></button>
+      </div>
+      <button class="primary-button submit-button" type="submit">Зберегти звичку</button>
+      <button id="deleteHabitBtn" class="danger-button hidden" type="button">Видалити звичку</button>
+    </form>
+  </dialog>
+
+  <dialog id="importDialog">
+    <form id="importForm" method="dialog">
+      <div class="dialog-head"><div><p class="muted">РЕЗЕРВНА КОПІЯ</p><h2>Відновити дані</h2></div><button type="button" id="closeImportDialog" class="icon-button close-button" aria-label="Закрити">×</button></div>
+      <p class="muted import-help">Вибери JSON-файл, який раніше експортував із трекера. Поточні дані буде замінено.</p>
+      <input id="importFile" type="file" accept=".json,application/json" required>
+      <button class="primary-button submit-button" type="submit">Відновити резервну копію</button>
+    </form>
+  </dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
